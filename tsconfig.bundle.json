@@ -29,7 +29,7 @@
     }
     // "noEmit": true
   },
-  "include": ["./src/components/*.ts"],
+  "include": ["./src/components/*.ts", "./src/media.env.d.ts"],
   "exclude": ["node_modules", "./src/vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.bundle.json" }]
 }

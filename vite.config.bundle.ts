@@ -3,10 +3,18 @@ import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
+import path from 'node:path'
 // 组件命名插件
 import DefineOptions from 'unplugin-vue-define-options/vite'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@assets': path.resolve(__dirname, 'src/assets'),
+    },
+  },
+  base: './',
+  publicDir: 'public',
   plugins: [
     vue(),
     vueJsx(),
@@ -26,7 +34,9 @@ export default defineConfig({
     }),
   ],
   build: {
+    assetsInlineLimit: 409600,
     outDir: 'bundle',
+    assetsDir: './assets',
     rollupOptions: {
       // 请确保外部化那些你的库中不需要的依赖，忽略打包vue文件
       external: ['vue'],

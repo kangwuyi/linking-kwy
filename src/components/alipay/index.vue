@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import icon from '../../assets/alipay.png?url'
+import icon from '../../assets/alipay.png'
 </script>
 
 <style scoped>
