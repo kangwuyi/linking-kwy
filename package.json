@@ -1,9 +1,9 @@
 {
   "name": "linking-kwy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "homepage": "http://linking-kwy.surge.sh/",
-  "description": "",
+  "description": "nothing",
   "author": "git@kangwuyi.com",
   "scripts": {
     "serve": "vite preview",
