@@ -49,9 +49,9 @@ export default defineConfig({
     // },
     // 库模式打包
     lib: {
-      entry: resolve(__dirname, '/src/components/Linking.vue'),
-      name: 'vue3-spinner',
-      fileName: 'vue3-spinner',
+      entry: resolve(__dirname, '/src/components/index.ts'),
+      name: 'linking-kwy',
+      fileName: 'linking-kwy',
       formats: ['es', 'umd'],
     },
   },
