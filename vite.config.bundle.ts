@@ -3,18 +3,18 @@ import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
-import path from 'node:path'
+// import path from 'node:path'
 // 组件命名插件
 import DefineOptions from 'unplugin-vue-define-options/vite'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@assets': path.resolve(__dirname, 'src/assets'),
-    },
-  },
-  base: './',
-  publicDir: 'public',
+  // resolve: {
+  //   alias: {
+  //     '@assets': path.resolve(__dirname, 'src/assets'),
+  //   },
+  // },
+  // base: './',
+  // publicDir: 'public',
   plugins: [
     vue(),
     vueJsx(),

@@ -16,9 +16,9 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "main": "bundle/vue3-spinner.umd.cjs",
-  "module": "bundle/vue3-spinner.js",
-  "types": "bundle/components/index.d.ts",
+  "main": "bundle/linking-kwy.umd.cjs",
+  "module": "bundle/linking-kwy.js",
+  "types": "bundle/index.d.ts",
   "files": [
     "bundle",
     "index.d.ts"
