@@ -5,7 +5,7 @@ const components = [Linking]
 const install = function (app: App) {
   // 遍历注册全局组件
   components.forEach((component) => {
-    app.component(component.name as string, component)
+    app.component('Linking', component)
   })
 }
 
