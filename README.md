@@ -36,6 +36,7 @@ npm install --save linking-kwy
 ```js
 import { createApp } from 'vue'
 import Linking from 'linking-kwy'
+import 'linking-kwy/bundle/linking-kwy.css'
 import App from './App.vue'
 
 const app = createApp(App)
