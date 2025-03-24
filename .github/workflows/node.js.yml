@@ -1,0 +1,104 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [23.x]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build 
+      - run: npm run bundle
+
+  test:
+    name: Run tests and collect coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npx jest --coverage --passWithNoTests
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: kangwuyi/vue3-spinkit
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          registry-url: https://registry.npmjs.org/
+      - run: npm ci
+      - run: npm run bundle
+      - run: npm run build
+      - run: npm run build-storybook
+      - run: mv storybook-static dist/storybook-static
+
+      - name: Check publish status
+        id: check
+        uses: tehpsalmist/npm-publish-status-action@v1
+
+      - name: Publish to NPM
+        id: publish
+        if: ${{ steps.check.outputs.exists == '0' }}
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Change npm registry
+        if: ${{ steps.check.outputs.exists == '0' }}
+        run: npm config set registry https://npm.pkg.github.com/
+          
+      # - name: Publish to Github Packages
+      #   if: ${{ steps.check.outputs.exists == '0' }}
+      #   run: npm publish
+      #   env:
+      #     GITHUB_TOKEN: ${{secrets.PACKAGES_TOKEN}}
+
+      - name: Report publish status
+        if: ${{ steps.check.outputs.exists == '1' }}
+        run: 'echo "package version already exists on npm registry"'
+      
+      - name: Deploy to linking-kwy.surge.sh
+        uses: kangwuyi/surge-sh-action@v1.1.0
+        with:
+          domain: 'linking-kwy.surge.sh'
+          root: './dist'
+        env:
+          SURGE_TOKEN: ${{secrets.SURGE_SH_TOKEN}}
