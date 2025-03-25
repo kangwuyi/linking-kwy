@@ -80,6 +80,9 @@ jobs:
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
+      - name: echo check outputs
+        run: echo ${{ steps.check.outputs.exists }}
+
       - name: Publish to NPM
         id: publish
         if: ${{ steps.check.outputs.exists == '0' }}
