@@ -72,7 +72,13 @@ jobs:
 
       - name: Check publish status
         id: check
-        uses: tehpsalmist/npm-publish-status-action@v1
+        uses: kangwuyi/npm-verify-action@v1.0.0
+        with:
+          type: 'double-check'
+          registry: 'registry.npmjs.org'
+          is-scope: '0'
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
       - name: Publish to NPM
         id: publish
