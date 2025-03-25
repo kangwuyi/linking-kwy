@@ -15,7 +15,6 @@
 
 ![Depfu](https://img.shields.io/depfu/kangwuyi/linking-kwy) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/kangwuyi/linking-kwy) [![Code Coverage](https://img.shields.io/codecov/c/github/kangwuyi/linking-kwy)](https://codecov.io/github/kangwuyi/linking-kwy) [![Code Coverage](https://github.com/kangwuyi/linking-kwy/actions/workflows/node.js.yml/badge.svg)](https://github.com/kangwuyi/kangwuyi/linking-kwy)
 
-
 </p>
 
 
