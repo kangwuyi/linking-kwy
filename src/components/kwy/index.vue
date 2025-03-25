@@ -1,10 +1,16 @@
 <template>
-  <a href="http://kangkk.cn/" target="_blank" class="kangwuyi-box" aria-label="View kk on web url">
+  <a
+    href="http://kangkk.cn/"
+    target="_blank"
+    class="kangwuyi-box"
+    aria-label="View kk on web url"
+    data-shadow="kwy"
+  >
     kwy
   </a>
 </template>
 
-<script setup></script>
+<script setup lang="ts"></script>
 
 <style scoped>
 @font-face {
@@ -26,5 +32,33 @@
   text-decoration: none;
   font-size: 50px;
   text-align: right;
+}
+
+.kangwuyi-box:after {
+  content: attr(data-shadow);
+  position: absolute;
+  top: 0.06em;
+  left: 0.06em;
+  z-index: -1;
+  text-shadow: none;
+  background-image: linear-gradient(
+    45deg,
+    transparent 45%,
+    hsla(0, 20%, 20%, 1) 45%,
+    hsla(0, 10%, 10%, 1) 55%,
+    transparent 0
+  );
+  background-size: 0.05em 0.05em;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shad-anim 15s linear infinite;
+}
+@keyframes shad-anim {
+  0% {
+    background-position: 0 0;
+  }
+  0% {
+    background-position: 100% -100%;
+  }
 }
 </style>
