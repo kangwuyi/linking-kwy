@@ -72,7 +72,7 @@ jobs:
 
       - name: Check publish status
         id: check
-        uses: kangwuyi/npm-verify-action@v1.0.0
+        uses: kangwuyi/npm-verify-action@v1.0.1
         with:
           type: 'double-check'
           registry: 'registry.npmjs.org'
