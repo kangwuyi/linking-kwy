@@ -51,6 +51,12 @@
   background-size: 0.05em 0.05em;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  /* animation: shad-anim 15s linear infinite; */
+  scale: 1;
+  transition: scale ease-in-out 0.2s;
+}
+.kangwuyi-box:hover:after {
+  scale: 2;
   animation: shad-anim 15s linear infinite;
 }
 @keyframes shad-anim {
