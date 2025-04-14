@@ -1,9 +1,16 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'node:path'
+import { resolve as node_resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import commonjs from 'vite-plugin-commonjs'
 import dts from 'vite-plugin-dts'
-// import path from 'node:path'
+// https://www.npmjs.com/package/vite-plugin-css-injected-by-js
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
+import importToConst from 'rollup-plugin-import-to-const'
+import rollup_resolve from '@rollup/plugin-node-resolve'
+import rollup_commonjs from '@rollup/plugin-commonjs'
+import rollup_babel from '@rollup/plugin-babel'
+import path from 'node:path'
 // 组件命名插件
 import DefineOptions from 'unplugin-vue-define-options/vite'
 
@@ -18,6 +25,8 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    commonjs(/* options */),
+    cssInjectedByJsPlugin(),
     DefineOptions(),
     dts({
       // 将所有声明合并到一个文件
@@ -37,15 +46,33 @@ export default defineConfig({
     assetsInlineLimit: 409600,
     outDir: 'bundle',
     assetsDir: './assets',
+    commonjsOptions: { transformMixedEsModules: true },
     rollupOptions: {
       // 请确保外部化那些你的库中不需要的依赖，忽略打包vue文件
       external: ['vue'],
+      input: {
+        // lk: node_resolve(__dirname, './src/components/Linking.vue'),
+        lki: node_resolve(__dirname, '/src/components/index.ts'),
+      },
       output: {
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'Vue',
         },
+        manualChunks: (id: string) => {
+          // 1. node_modules 中的文件合并
+          // if (id.includes('node_modules')) return 'vendor'
+          // 2. 所有文件合并
+          return 'vendor'
+        },
       },
+      plugins: [
+        rollup_commonjs(),
+        rollup_resolve(),
+        rollup_babel({ babelHelpers: 'bundled' }),
+        // other plugins...
+        importToConst(),
+      ],
     },
     //压缩
     minify: 'esbuild',
@@ -59,10 +86,10 @@ export default defineConfig({
     // },
     // 库模式打包
     lib: {
-      entry: resolve(__dirname, '/src/components/index.ts'),
+      entry: node_resolve(__dirname, '/src/components/index.ts'),
       name: 'linking-kwy',
-      fileName: 'linking-kwy',
-      formats: ['es', 'umd'],
+      fileName: (format) => `linking-kwy.${format}.js`,
+      formats: ['es', 'cjs'],
     },
   },
 })
