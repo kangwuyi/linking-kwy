@@ -59,12 +59,13 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
         },
-        manualChunks: (id: string) => {
-          // 1. node_modules 中的文件合并
-          // if (id.includes('node_modules')) return 'vendor'
-          // 2. 所有文件合并
-          return 'vendor'
-        },
+        extend: true,
+        // manualChunks: (id: string) => {
+        // 1. node_modules 中的文件合并
+        // if (id.includes('node_modules')) return 'vendor'
+        // 2. 所有文件合并
+        //   return 'vendor'
+        // },
       },
       plugins: [
         rollup_commonjs(),
@@ -76,6 +77,7 @@ export default defineConfig({
     },
     //压缩
     minify: 'esbuild',
+
     // minify: 'terser',
     // terserOptions: {
     //   compress: {
@@ -89,7 +91,10 @@ export default defineConfig({
       entry: node_resolve(__dirname, '/src/components/index.ts'),
       name: 'linking-kwy',
       fileName: (format) => `linking-kwy.${format}.js`,
-      formats: ['es', 'cjs'],
+      formats: ['es', 'cjs', 'iife'],
     },
+  },
+  esbuild: {
+    drop: ['console', 'debugger'],
   },
 })
